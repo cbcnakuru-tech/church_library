@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crosspoint Bible Church Library | Nakuru</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        church: {
+                            50: '#fdfbf7',
+                            100: '#f7f2e8',
+                            200: '#eddcc5',
+                            600: '#8b5a2b',
+                            700: '#6f4518',
+                            800: '#543312',
+                            900: '#3d250d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-church-50 text-church-900 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Top Alert Notification Bar -->
+    <div id="alert-banner" class="bg-amber-100 border-b border-amber-200 text-amber-900 px-4 py-2.5 text-xs sm:text-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-start sm:items-center justify-between gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="flex h-2 w-2 relative shrink-0 mt-0.5 sm:mt-0">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-600"></span>
+                </span>
+                <p id="alert-message" class="leading-snug"><strong class="font-semibold">New Arrival Alert:</strong> Several new volumes on Systematic Theology, Commentaries, and Practical Living have just been added to the catalog!</p>
+            </div>
+            <button onclick="document.getElementById('alert-banner').style.display='none'" class="text-amber-700 hover:text-amber-900 font-bold text-lg leading-none shrink-0" title="Close announcement">&times;</button>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="bg-white border-b border-church-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-12 h-12 bg-white border border-church-200 rounded-xl flex items-center justify-center p-1 shadow-sm overflow-hidden">
+                    <img src="logo.png" alt="Crosspoint Bible Church Logo" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-church-900 leading-tight">Crosspoint Bible Church</h1>
+                    <p class="text-[11px] text-church-600 font-semibold tracking-wider uppercase">Library Catalogue • Kiamunyi, Nakuru</p>
+                </div>
+            </div>
+
+            <!-- Desktop Header Navigation -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#catalog" class="hover:text-church-600 transition-colors">Catalog</a>
+                <button onclick="openAllGroupsModal()" class="hover:text-church-600 transition-colors flex items-center gap-1.5 font-bold text-amber-800">
+                    <i class="fa-solid fa-users"></i> Group Reading (<span id="nav-group-count">0</span>)
+                </button>
+                <a href="#about-reading" class="hover:text-church-600 transition-colors">Why Read?</a>
+                <a href="#about-us" class="hover:text-church-600 transition-colors">About Us</a>
+                <div id="user-auth-badge"></div>
+                <button id="btn-librarian-toggle" onclick="openAdminPinModal()" class="border border-church-300 hover:border-church-700 text-church-800 text-xs px-3 py-2 rounded-xl font-medium transition flex items-center space-x-1.5 shadow-sm">
+                    <i class="fa-solid fa-lock text-[11px]"></i>
+                    <span id="librarian-btn-label">Librarian</span>
+                </button>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="menu-btn" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden text-church-800 p-2">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-church-200 px-4 pt-2 pb-4 space-y-3">
+            <div id="mobile-user-auth-badge" class="pb-2 border-b border-church-100"></div>
+            <a href="#catalog" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-2 text-church-900 hover:bg-church-50 rounded px-2 font-medium">Catalog</a>
+            <button onclick="openAllGroupsModal(); document.getElementById('mobile-menu').classList.add('hidden')" class="w-full text-left py-2 text-amber-800 font-bold hover:bg-church-50 rounded px-2 flex items-center justify-between">
+                <span><i class="fa-solid fa-users mr-1"></i> Group Reading Circles</span>
+                <span class="bg-amber-100 text-amber-900 text-xs px-2 py-0.5 rounded-full" id="mobile-nav-group-count">0</span>
+            </button>
+            <a href="#about-reading" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-2 text-church-900 hover:bg-church-50 rounded px-2 font-medium">Why Read?</a>
+            <a href="#about-us" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-2 text-church-900 hover:bg-church-50 rounded px-2 font-medium">About Us</a>
+            <div class="pt-2 border-t border-church-100">
+                <button onclick="openAdminPinModal(); document.getElementById('mobile-menu').classList.add('hidden')" class="w-full text-left py-2 text-church-800 font-semibold px-2 flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-amber-700"></i> Librarian Terminal
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b from-church-100 to-church-50 py-10 px-4 sm:px-6 lg:px-8 border-b border-church-200">
+        <div class="max-w-4xl mx-auto text-center space-y-5">
+            <span class="inline-block bg-church-200 text-church-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                Preaching Christ — The Joy of All Nations
+            </span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-church-900 tracking-tight">Equipping the Saints Through Sound Doctrine</h2>
+            
+            <div class="grid md:grid-cols-2 gap-5 text-left mt-6">
+                <div class="bg-white/95 backdrop-blur border border-church-200 p-5 rounded-2xl shadow-sm">
+                    <p class="text-xs uppercase tracking-wider text-church-600 font-bold mb-2">
+                        <i class="fa-solid fa-quote-left mr-1"></i> Scripture Inspiration
+                    </p>
+                    <p class="italic text-church-900 text-xs sm:text-sm leading-relaxed">
+                        "Until I come, devote yourself to the public reading of Scripture, to exhortation, to teaching... Practice these things, immerse yourself in them, so that all may see your progress."
+                    </p>
+                    <p class="text-xs font-semibold text-church-700 mt-3">— 1 Timothy 4:13, 15</p>
+                </div>
+                <div class="bg-white/95 backdrop-blur border border-church-200 p-5 rounded-2xl shadow-sm">
+                    <p class="text-xs uppercase tracking-wider text-church-600 font-bold mb-2">
+                        <i class="fa-solid fa-book-open-reader mr-1"></i> Reformed Wisdom
+                    </p>
+                    <p class="italic text-church-900 text-xs sm:text-sm leading-relaxed">
+                        "Let us read much, and let us read good books. A man of deep learning is generally a man of deep reading. If we would grow in grace and knowledge, we must use the means God has appointed."
+                    </p>
+                    <p class="text-xs font-semibold text-church-700 mt-3">— J.C. Ryle</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content: Catalog Section -->
+    <main id="catalog" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-church-200 mb-8">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full md:w-1/2">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-church-600">
+                        <i class="fa-solid fa-search"></i>
+                    </span>
+                    <input type="text" id="search-input" placeholder="Search by book name, author, keyword, or category..." class="w-full pl-10 pr-4 py-2.5 bg-church-50 border border-church-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-church-600 text-sm">
+                </div>
+                <div class="w-full md:w-1/3">
+                    <select id="category-filter" class="w-full px-4 py-2.5 bg-church-50 border border-church-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-church-600 text-sm">
+                        <option value="">All Categories</option>
+                        <option value="Systematic Theology">Systematic Theology</option>
+                        <option value="Biblical Theology">Biblical Theology</option>
+                        <option value="Commentaries">Commentaries</option>
+                        <option value="Bibles">Bibles</option>
+                        <option value="Practical Living">Practical Living</option>
+                        <option value="Practical Theology">Practical Theology</option>
+                        <option value="Ethics">Ethics</option>
+                        <option value="Articles">Articles</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="book-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+        <div id="load-more-container" class="hidden text-center mt-12">
+            <button id="load-more-btn" onclick="loadMoreBooks()" class="bg-church-100 hover:bg-church-200 text-church-900 border border-church-300 font-semibold px-6 py-2.5 rounded-xl text-sm transition">
+                Load More Books <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+            </button>
+        </div>
+
+        <div id="no-results" class="hidden text-center py-16">
+            <i class="fa-solid fa-book-bookmark text-4xl text-church-600 mb-3"></i>
+            <h3 class="text-base font-bold text-church-900">No books found matching your search</h3>
+        </div>
+    </main>
+
+    <!-- Why Access Godly Books Section -->
+    <section id="about-reading" class="bg-church-100 border-t border-church-200 py-12 px-4 sm:px-6 lg:px-8 mt-12">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <h3 class="text-2xl font-bold text-church-900">About Our Library & Reading Ministry</h3>
+            <p class="text-church-800 text-sm sm:text-base leading-relaxed">
+                At Crosspoint Bible Church, we believe that serious reading fuels deep worship. Our library is curated to help believers in Kiamunyi, Nakuru, and beyond grow deeper in biblical truth, historical theology, and Christian living. Whether you are looking to borrow a volume for personal study or read literature onsite in our study corner, these resources are made available to strengthen your walk with Christ.
+            </p>
+        </div>
+    </section>
+
+    <!-- Librarian Console (5 Tabs) -->
+    <section id="admin-panel" class="hidden bg-white border-t-4 border-church-800 shadow-2xl py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b pb-4">
+                <div>
+                    <h2 class="text-xl font-extrabold text-church-900 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-amber-700"></i> Librarian Terminal
+                    </h2>
+                    <p class="text-xs text-church-600">Circulation control, public catalog stock, church storage & distribution, members, and analytics.</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="openAdminSettingsModal()" class="border border-church-300 hover:bg-church-50 text-church-800 text-xs px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-gear"></i> Library Settings
+                    </button>
+                    <button onclick="exitLibrarianConsole()" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs px-3.5 py-1.5 rounded-xl font-bold transition">
+                        <i class="fa-solid fa-door-open mr-1"></i> Exit Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- 5 Toggle Tabs -->
+            <div class="flex flex-wrap gap-2 border-b border-church-200 pb-2">
+                <button id="tab-btn-circulation" onclick="switchAdminTab('circulation')" class="admin-tab-btn active px-4 py-2 rounded-xl text-xs font-bold bg-church-800 text-white shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> Circulation Desk
+                    <span id="badge-pending-count" class="bg-amber-500 text-white px-1.5 py-0.2 rounded-full text-[10px]">0</span>
+                </button>
+                <button id="tab-btn-stock" onclick="switchAdminTab('stock')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-church-100 text-church-800 hover:bg-church-200 flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-stacked"></i> Catalog Stock
+                </button>
+                <button id="tab-btn-storage" onclick="switchAdminTab('storage')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-church-100 text-church-800 hover:bg-church-200 flex items-center gap-2">
+                    <i class="fa-solid fa-warehouse text-amber-700"></i> Storage & Distribution
+                </button>
+                <button id="tab-btn-members" onclick="switchAdminTab('members')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-church-100 text-church-800 hover:bg-church-200 flex items-center gap-2">
+                    <i class="fa-solid fa-users"></i> Members Directory
+                </button>
+                <button id="tab-btn-analytics" onclick="switchAdminTab('analytics')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-church-100 text-church-800 hover:bg-church-200 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line"></i> Timeline & Analytics
+                </button>
+            </div>
+
+            <!-- WINDOW 1: CIRCULATION DESK -->
+            <div id="admin-window-circulation" class="space-y-4">
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterCirculationStatus('All')" class="circ-filter-btn active text-xs px-3 py-1.5 rounded-lg bg-church-200 font-bold">All (<span id="count-all">0</span>)</button>
+                    <button onclick="filterCirculationStatus('Pending')" class="circ-filter-btn text-xs px-3 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-200 font-bold">🟡 Pending (<span id="count-pending">0</span>)</button>
+                    <button onclick="filterCirculationStatus('Approved')" class="circ-filter-btn text-xs px-3 py-1.5 rounded-lg bg-blue-50 text-blue-900 border border-blue-200 font-bold">🔵 Approved (<span id="count-approved">0</span>)</button>
+                    <button onclick="filterCirculationStatus('Active')" class="circ-filter-btn text-xs px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-200 font-bold">🟢 Active (<span id="count-active">0</span>)</button>
+                    <button onclick="filterCirculationStatus('Returned')" class="circ-filter-btn text-xs px-3 py-1.5 rounded-lg bg-church-100 font-bold">Returned (<span id="count-returned">0</span>)</button>
+                </div>
+
+                <div class="overflow-x-auto border border-church-200 rounded-2xl">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead class="bg-church-100 text-church-800 uppercase font-semibold text-[11px]">
+                            <tr>
+                                <th class="p-3">Book Title</th>
+                                <th class="p-3">Borrower Details</th>
+                                <th class="p-3">Pickup Time</th>
+                                <th class="p-3">Due Date</th>
+                                <th class="p-3">Stage</th>
+                                <th class="p-3">Condition Info</th>
+                                <th class="p-3">Contact WhatsApp</th>
+                                <th class="p-3 text-right">Circulation Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-borrows-tbody" class="divide-y divide-church-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- WINDOW 2: CATALOG STOCK AUDIT -->
+            <div id="admin-window-stock" class="hidden space-y-6">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="bg-church-50 p-4 rounded-2xl border border-church-200">
+                        <p class="text-[11px] uppercase font-bold text-church-600">Total Book Titles</p>
+                        <p id="stock-kpi-titles" class="text-2xl font-black text-church-900 mt-1">0</p>
+                    </div>
+                    <div class="bg-church-50 p-4 rounded-2xl border border-church-200">
+                        <p class="text-[11px] uppercase font-bold text-church-600">Total Physical Copies</p>
+                        <p id="stock-kpi-total-copies" class="text-2xl font-black text-church-900 mt-1">0</p>
+                    </div>
+                    <div class="bg-church-50 p-4 rounded-2xl border border-church-200">
+                        <p class="text-[11px] uppercase font-bold text-amber-800">Currently On Loan</p>
+                        <p id="stock-kpi-loaned" class="text-2xl font-black text-amber-700 mt-1">0</p>
+                    </div>
+                    <div class="bg-church-50 p-4 rounded-2xl border border-church-200">
+                        <p class="text-[11px] uppercase font-bold text-emerald-800">Available on Shelves</p>
+                        <p id="stock-kpi-available" class="text-2xl font-black text-emerald-700 mt-1">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-church-50 p-4 rounded-2xl border border-church-200 space-y-3">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-church-200 pb-3">
+                        <h3 class="text-xs font-bold text-church-900 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-filter text-amber-800"></i> Stock & Inventory Query
+                        </h3>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <button onclick="exportStockReportCSV()" class="w-1/2 sm:w-auto bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+                                <i class="fa-solid fa-file-excel"></i> Export to Excel (CSV)
+                            </button>
+                            <button onclick="printStockReport()" class="w-1/2 sm:w-auto bg-church-800 hover:bg-church-900 text-white px-3 py-1.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+                                <i class="fa-solid fa-print"></i> Print / PDF Report
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">Search Title / Author</label>
+                            <input id="stock-search-input" oninput="renderStockAuditTable()" type="text" placeholder="e.g. John Macarthur..." class="w-full p-2 border rounded-xl bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">Filter Category</label>
+                            <select id="stock-category-filter" onchange="renderStockAuditTable()" class="w-full p-2 border rounded-xl bg-white">
+                                <option value="">All Categories</option>
+                                <option value="Systematic Theology">Systematic Theology</option>
+                                <option value="Biblical Theology">Biblical Theology</option>
+                                <option value="Commentaries">Commentaries</option>
+                                <option value="Bibles">Bibles</option>
+                                <option value="Practical Living">Practical Living</option>
+                                <option value="Practical Theology">Practical Theology</option>
+                                <option value="Ethics">Ethics</option>
+                                <option value="Articles">Articles</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">Access Rule</label>
+                            <select id="stock-classification-filter" onchange="renderStockAuditTable()" class="w-full p-2 border rounded-xl bg-white">
+                                <option value="">All Rules (Borrowable & Onsite)</option>
+                                <option value="Borrowable">Borrowable Only</option>
+                                <option value="Onsite">Onsite Only</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">Stock Availability</label>
+                            <select id="stock-availability-filter" onchange="renderStockAuditTable()" class="w-full p-2 border rounded-xl bg-white">
+                                <option value="">All Stock Levels</option>
+                                <option value="available">Available on Shelf (> 0)</option>
+                                <option value="low">Low Stock (Exactly 1 Copy)</option>
+                                <option value="out">Out of Stock (0 on Shelf)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="stock-printable-area" class="overflow-x-auto border border-church-200 rounded-2xl bg-white">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead class="bg-church-100 text-church-800 uppercase font-semibold text-[11px]">
+                            <tr>
+                                <th class="p-3">Book ID</th>
+                                <th class="p-3">Title & Author</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Access Rule</th>
+                                <th class="p-3 text-center">Total Copies</th>
+                                <th class="p-3 text-center text-amber-900">On Loan</th>
+                                <th class="p-3 text-center text-emerald-900">On Shelf</th>
+                                <th class="p-3 text-center">Times Borrowed</th>
+                                <th class="p-3 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stock-audit-tbody" class="divide-y divide-church-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- WINDOW 3: STORAGE & DISTRIBUTION INVENTORY -->
+            <div id="admin-window-storage" class="hidden space-y-6">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="bg-church-50 p-4 rounded-2xl border border-church-200">
+                        <p class="text-[11px] uppercase font-bold text-church-600">Storage Book Titles</p>
+                        <p id="storage-kpi-titles" class="text-2xl font-black text-church-900 mt-1">0</p>
+                    </div>
+                    <div class="bg-church-50 p-4 rounded-2xl border border-church-200">
+                        <p class="text-[11px] uppercase font-bold text-church-600">Total Volumes Received</p>
+                        <p id="storage-kpi-received" class="text-2xl font-black text-church-900 mt-1">0</p>
+                    </div>
+                    <div class="bg-church-50 p-4 rounded-2xl border border-church-200">
+                        <p class="text-[11px] uppercase font-bold text-amber-800">Given / Distributed Out</p>
+                        <p id="storage-kpi-distributed" class="text-2xl font-black text-amber-700 mt-1">0</p>
+                    </div>
+                    <div class="bg-church-50 p-4 rounded-2xl border border-church-200">
+                        <p class="text-[11px] uppercase font-bold text-emerald-800">Current Storage Balance</p>
+                        <p id="storage-kpi-remaining" class="text-2xl font-black text-emerald-700 mt-1">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-church-50 p-4 rounded-2xl border border-church-200 space-y-3">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-church-200 pb-3">
+                        <div>
+                            <h3 class="text-xs font-bold text-church-900 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-warehouse text-amber-800"></i> Storage & Benevolence Distribution
+                            </h3>
+                            <p class="text-[11px] text-church-600">Bulk books for church storage, benevolence, or distribution (hidden from the public catalog).</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                            <button onclick="openStorageIntakeModal()" class="bg-church-800 hover:bg-church-900 text-white px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                                <i class="fa-solid fa-plus-circle"></i> Stock Intake (Receive Books)
+                            </button>
+                            <button onclick="openStorageDistributeModal()" class="bg-amber-700 hover:bg-amber-800 text-white px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                                <i class="fa-solid fa-hand-holding-heart"></i> Record Distribution Out
+                            </button>
+                            <button onclick="exportStorageReportCSV()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                                <i class="fa-solid fa-file-excel"></i> Export CSV
+                            </button>
+                            <button onclick="printStorageReport()" class="border border-church-300 bg-white hover:bg-church-100 text-church-800 px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                                <i class="fa-solid fa-print"></i> Print Report
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">Search Title, Author, or Donor</label>
+                            <input id="storage-search-input" oninput="renderStorageTables()" type="text" placeholder="e.g. John Bunyan / Agano..." class="w-full p-2 border rounded-xl bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">Acquisition Type</label>
+                            <select id="storage-acq-filter" onchange="renderStorageTables()" class="w-full p-2 border rounded-xl bg-white">
+                                <option value="">All Acquisition Types</option>
+                                <option value="Donation">Donated to Church</option>
+                                <option value="Purchased">Purchased by Church Funds</option>
+                                <option value="Specific Sponsor">Gift from Specific Sponsor</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">Storage Stock Balance</label>
+                            <select id="storage-status-filter" onchange="renderStorageTables()" class="w-full p-2 border rounded-xl bg-white">
+                                <option value="">All Balances</option>
+                                <option value="available">In Storage (> 0 Available)</option>
+                                <option value="depleted">Fully Distributed (0 Remaining)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2 border-b border-church-200 pb-2">
+                    <button id="subtab-storage-stock" onclick="switchStorageSubTab('stock')" class="px-3 py-1 rounded-lg text-xs font-bold bg-church-800 text-white">
+                        Storage Stock Ledger
+                    </button>
+                    <button id="subtab-storage-dist" onclick="switchStorageSubTab('dist')" class="px-3 py-1 rounded-lg text-xs font-bold bg-church-100 text-church-800 hover:bg-church-200">
+                        Distribution Activity Logs (<span id="count-dist-logs">0</span>)
+                    </button>
+                </div>
+
+                <div id="storage-view-stock" class="overflow-x-auto border border-church-200 rounded-2xl bg-white">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead class="bg-church-100 text-church-800 uppercase font-semibold text-[11px]">
+                            <tr>
+                                <th class="p-3">Item ID</th>
+                                <th class="p-3">Title & Author</th>
+                                <th class="p-3">Acquisition Details</th>
+                                <th class="p-3">Date Received</th>
+                                <th class="p-3 text-center">Total Received</th>
+                                <th class="p-3 text-center text-amber-800">Distributed</th>
+                                <th class="p-3 text-center text-emerald-800">In Storage</th>
+                                <th class="p-3">Notes / Location</th>
+                                <th class="p-3 text-right">Quick Distribute</th>
+                            </tr>
+                        </thead>
+                        <tbody id="storage-stock-tbody" class="divide-y divide-church-100"></tbody>
+                    </table>
+                </div>
+
+                <div id="storage-view-dist" class="hidden overflow-x-auto border border-church-200 rounded-2xl bg-white">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead class="bg-church-100 text-church-800 uppercase font-semibold text-[11px]">
+                            <tr>
+                                <th class="p-3">Log ID</th>
+                                <th class="p-3">Book Title</th>
+                                <th class="p-3">Recipient / Group</th>
+                                <th class="p-3 text-center">Copies Given</th>
+                                <th class="p-3">Date Distributed</th>
+                                <th class="p-3">Purpose / Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="storage-dist-tbody" class="divide-y divide-church-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- WINDOW 4: MEMBERS MANAGEMENT -->
+            <div id="admin-window-members" class="hidden space-y-5">
+                <div class="bg-church-50 p-4 rounded-2xl border border-church-200 space-y-3">
+                    <h3 class="text-xs font-bold text-church-900 uppercase tracking-wider">Register New Library Member</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+                        <input id="new-mem-id" type="text" placeholder="Unique ID (e.g. CBC-025)" class="p-2 border rounded-xl text-xs bg-white">
+                        <input id="new-mem-name" type="text" placeholder="Full Name" class="p-2 border rounded-xl text-xs bg-white">
+                        <select id="new-mem-desig" class="p-2 border rounded-xl text-xs bg-white">
+                            <option value="Church Member">Church Member (Max 2)</option>
+                            <option value="Regular Attendee">Regular Attendee (Max 2)</option>
+                            <option value="Agano Student">Agano Student (Max 2)</option>
+                            <option value="Pastor">Pastor (Max 4 & Onsite Borrow)</option>
+                            <option value="Other">Other (Max 2)</option>
+                        </select>
+                        <input id="new-mem-phone" type="text" placeholder="WhatsApp Phone (e.g. 0712345678)" class="p-2 border rounded-xl text-xs bg-white">
+                        <button onclick="adminRegisterMember()" class="bg-church-800 hover:bg-church-900 text-white font-bold rounded-xl text-xs py-2 transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Register Member
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto border border-church-200 rounded-2xl">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead class="bg-church-100 text-church-800 uppercase font-semibold text-[11px]">
+                            <tr>
+                                <th class="p-3">Member ID</th>
+                                <th class="p-3">Full Name</th>
+                                <th class="p-3">Designation</th>
+                                <th class="p-3">WhatsApp Phone</th>
+                                <th class="p-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-members-tbody" class="divide-y divide-church-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- WINDOW 5: TIMELINE & ANALYTICS -->
+            <div id="admin-window-analytics" class="hidden space-y-6">
+                <div class="bg-church-50 p-4 rounded-2xl border border-church-200 space-y-3">
+                    <h3 class="text-xs font-bold text-church-900 uppercase tracking-wider">Specify Borrowing Timeline & Filter</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">From Date</label>
+                            <input id="analytics-date-from" type="date" class="w-full p-2 border rounded-xl bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">To Date</label>
+                            <input id="analytics-date-to" type="date" class="w-full p-2 border rounded-xl bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1 text-church-700">Search Author or Title</label>
+                            <input id="analytics-search-query" type="text" placeholder="e.g. Jonathan Leeman..." class="w-full p-2 border rounded-xl bg-white">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="applyAnalyticsTimelineFilter()" class="w-full bg-church-800 hover:bg-church-900 text-white font-bold py-2 rounded-xl transition">
+                                Apply Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-church-50 p-4 rounded-xl border border-church-200">
+                        <p class="text-xs text-church-600 uppercase font-bold">Total Borrows In Period</p>
+                        <p id="stat-period-borrows" class="text-2xl font-black text-church-900 mt-1">0</p>
+                    </div>
+                    <div class="bg-church-50 p-4 rounded-xl border border-church-200">
+                        <p class="text-xs text-church-600 uppercase font-bold">Most Borrowed Book</p>
+                        <p id="stat-top-book" class="text-sm font-bold text-amber-800 mt-1 truncate">None</p>
+                    </div>
+                    <div class="bg-church-50 p-4 rounded-xl border border-church-200">
+                        <p class="text-xs text-church-600 uppercase font-bold">Registered Members</p>
+                        <p id="stat-total-members" class="text-2xl font-black text-church-900 mt-1">0</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto border border-church-200 rounded-2xl">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead class="bg-church-100 text-church-800 uppercase font-semibold text-[11px]">
+                            <tr>
+                                <th class="p-3">Book Title</th>
+                                <th class="p-3">Borrower</th>
+                                <th class="p-3">Pickup Date</th>
+                                <th class="p-3">Due Date</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="analytics-borrows-tbody" class="divide-y divide-church-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3-Column Footer -->
+    <footer id="about-us" class="bg-church-900 text-church-100 pt-12 pb-8 border-t border-church-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div class="space-y-3">
+                <h4 class="text-white font-bold text-base tracking-wide border-b border-church-800 pb-2">Crosspoint Bible Church</h4>
+                <p class="text-sm text-church-200 italic">"To preach Christ the joy of all nations."</p>
+                <p class="text-xs text-church-300 leading-relaxed">Dedicated to expository preaching, sound reformed framework, and robust Christian community fellowship.</p>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-white font-bold text-base tracking-wide border-b border-church-800 pb-2">Location & Contact</h4>
+                <p class="text-xs text-church-200 flex items-center"><i class="fa-solid fa-location-dot w-5 text-amber-500"></i> Kiamunyi (Zaburi), Nakuru, Kenya</p>
+                <p class="text-xs text-church-200 flex items-center"><i class="fa-solid fa-phone w-5 text-amber-500"></i> +254 704 486 616</p>
+                <p class="text-xs text-church-200 flex items-center"><i class="fa-solid fa-envelope w-5 text-amber-500"></i> cbcnakuru@gmail.com</p>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-white font-bold text-base tracking-wide border-b border-church-800 pb-2">Policies & Access</h4>
+                <p class="text-xs text-church-300 leading-relaxed">
+                    Books labeled <strong>Borrowable</strong> can be checked out for a standard 2-week period. Books labeled <strong>Onsite Only</strong> must be read within designated church study areas.
+                </p>
+                <div class="text-[11px] text-church-400 pt-2 flex space-x-4">
+                    <button onclick="openPolicyModal('privacy')" class="hover:text-white underline text-left focus:outline-none">Privacy Policy</button>
+                    <button onclick="openPolicyModal('terms')" class="hover:text-white underline text-left focus:outline-none">Terms of Service</button>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-church-800/60 pt-6 text-center text-xs text-church-400">
+            &copy; <span id="current-year"></span> Crosspoint Bible Church Library. All rights reserved. Built for the glory of God.
+        </div>
+    </footer>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- MODAL: STORAGE STOCK INTAKE -->
+    <div id="storage-intake-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+            <h3 class="text-base font-bold text-church-900 flex items-center gap-1.5">
+                <i class="fa-solid fa-boxes-packing text-amber-800"></i> Stock Intake (Receive Storage Books)
+            </h3>
+            <p class="text-xs text-church-600">Record a batch of books received for church storage, benevolence, or distribution.</p>
+            
+            <div class="space-y-2 text-xs">
+                <div>
+                    <label class="font-bold block mb-1">Book Title</label>
+                    <input id="intake-title" type="text" placeholder="e.g. Pilgrim's Progress" class="w-full p-2 border rounded-xl bg-church-50 font-bold">
+                </div>
+                <div>
+                    <label class="font-bold block mb-1">Author</label>
+                    <input id="intake-author" type="text" placeholder="e.g. John Bunyan" class="w-full p-2 border rounded-xl bg-church-50">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold block mb-1">Category</label>
+                        <select id="intake-category" class="w-full p-2 border rounded-xl bg-church-50">
+                            <option value="Evangelism & Tracts">Evangelism & Tracts</option>
+                            <option value="Christian Living">Christian Living</option>
+                            <option value="Bibles">Bibles (Gift Editions)</option>
+                            <option value="Theology">Theology</option>
+                            <option value="Children / Youth">Children / Youth</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold block mb-1">Acquisition Type</label>
+                        <select id="intake-acq-type" class="w-full p-2 border rounded-xl bg-church-50">
+                            <option value="Donation">Church Donation</option>
+                            <option value="Purchased">Purchased (Church Budget)</option>
+                            <option value="Specific Sponsor">Specific Donor / Sponsor</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="font-bold block mb-1">Funding Source / Donor Details</label>
+                    <input id="intake-source" type="text" placeholder="e.g. Missionary Partner / Church Benevolence Fund" class="w-full p-2 border rounded-xl bg-church-50">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold block mb-1">Total Copies Received</label>
+                        <input id="intake-copies" type="number" min="1" value="10" class="w-full p-2 border rounded-xl bg-church-50 font-bold text-church-900">
+                    </div>
+                    <div>
+                        <label class="font-bold block mb-1">Date Received</label>
+                        <input id="intake-date" type="date" class="w-full p-2 border rounded-xl bg-church-50 font-semibold">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-bold block mb-1">Storage Box / Notes</label>
+                    <input id="intake-notes" type="text" placeholder="e.g. Storage Box B / Pastoral Office" class="w-full p-2 border rounded-xl bg-church-50">
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeModal('storage-intake-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button onclick="submitStorageIntake()" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition">Record Stock Intake</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: RECORD DISTRIBUTION OUT -->
+    <div id="storage-distribute-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+            <h3 class="text-base font-bold text-church-900 flex items-center gap-1.5">
+                <i class="fa-solid fa-hand-holding-heart text-amber-800"></i> Record Book Distribution
+            </h3>
+            <p class="text-xs text-church-600">Deduct copies given away for ministry, school outreach, or benevolence.</p>
+            
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="font-bold block mb-1">Select Storage Book Item</label>
+                    <select id="dist-item-select" onchange="updateDistributionMax()" class="w-full p-2.5 border rounded-xl bg-church-50 font-bold"></select>
+                    <p id="dist-available-hint" class="text-[11px] text-emerald-700 font-bold mt-1"></p>
+                </div>
+                <div>
+                    <label class="font-bold block mb-1">Recipient / Ministry / Organization</label>
+                    <input id="dist-recipient" type="text" placeholder="e.g. Agano School Students / Visitors" class="w-full p-2 border rounded-xl bg-church-50">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold block mb-1">Quantity Given</label>
+                        <input id="dist-qty" type="number" min="1" value="1" class="w-full p-2 border rounded-xl bg-church-50 font-bold text-church-900">
+                    </div>
+                    <div>
+                        <label class="font-bold block mb-1">Date Given Out</label>
+                        <input id="dist-date" type="date" class="w-full p-2 border rounded-xl bg-church-50 font-semibold">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-bold block mb-1">Purpose / Notes</label>
+                    <input id="dist-notes" type="text" placeholder="e.g. High school outreach / Baptism gifts" class="w-full p-2 border rounded-xl bg-church-50">
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeModal('storage-distribute-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button onclick="submitDistributionRecord()" class="px-5 py-2 bg-amber-700 hover:bg-amber-800 text-white rounded-xl text-xs font-bold transition">Confirm Distribution</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOREGROUND MODAL: MEMBER SIGN IN (z-[70]) -->
+    <div id="login-modal" class="fixed inset-0 z-[70] hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl border border-church-200 animate-in fade-in zoom-in-95 duration-150">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h3 class="text-base font-extrabold text-church-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-id-card text-amber-800"></i> Member Sign In
+                    </h3>
+                    <p id="login-modal-notice" class="text-xs text-church-600 mt-1">Please sign in with your registered Member ID and Full Name to access borrowing privileges.</p>
+                </div>
+                <button onclick="closeModal('login-modal')" class="text-church-600 hover:text-church-900 text-xl font-bold p-1 leading-none">&times;</button>
+            </div>
+            <div>
+                <label class="text-[11px] font-bold uppercase text-church-700">Member ID</label>
+                <input id="login-id" type="text" placeholder="e.g. CBC-001" class="w-full mt-1 p-2.5 border rounded-xl text-sm bg-church-50 font-bold focus:ring-2 focus:ring-church-800 focus:outline-none">
+            </div>
+            <div>
+                <label class="text-[11px] font-bold uppercase text-church-700">Full Name</label>
+                <input id="login-name" type="text" placeholder="e.g. Ian Luyali" class="w-full mt-1 p-2.5 border rounded-xl text-sm bg-church-50 font-medium focus:ring-2 focus:ring-church-800 focus:outline-none">
+            </div>
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeModal('login-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold hover:bg-church-50 transition">Cancel</button>
+                <button onclick="loginMember()" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold shadow transition">Sign In</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOREGROUND MODAL: ADMIN PIN (z-[70]) -->
+    <div id="admin-pin-modal" class="fixed inset-0 z-[70] hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl border border-church-200 animate-in fade-in zoom-in-95 duration-150">
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-full flex items-center justify-center mx-auto text-xl shadow-sm">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-base font-extrabold text-church-900">Librarian Access</h3>
+                <p class="text-xs text-church-600">Please enter your 4-digit Librarian PIN to continue.</p>
+            </div>
+            <div>
+                <input id="admin-pin-input" type="password" maxlength="6" placeholder="••••" class="w-full text-center tracking-widest text-2xl font-black p-3 border border-church-300 rounded-xl bg-church-50 focus:outline-none focus:ring-2 focus:ring-church-800">
+                <p id="admin-pin-error" class="hidden text-xs text-red-600 text-center font-bold mt-1">Incorrect PIN. Access denied.</p>
+            </div>
+            <div class="flex space-x-2 pt-1">
+                <button onclick="closeModal('admin-pin-modal')" class="w-1/2 py-2.5 border border-church-300 rounded-xl text-xs font-semibold hover:bg-church-50 transition">Cancel</button>
+                <button onclick="submitAdminPin()" class="w-1/2 py-2.5 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition shadow">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BASE MODAL: Book Details (z-50) -->
+    <div id="book-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border">
+            <div class="bg-church-100 px-6 py-4 flex items-center justify-between border-b">
+                <h3 id="modal-title" class="font-bold text-church-900 text-base truncate"></h3>
+                <button onclick="closeModal('book-modal')" class="text-church-600 hover:text-church-900 text-xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto text-sm">
+                <div class="flex gap-4">
+                    <img id="modal-img" src="" class="w-28 h-40 object-contain rounded border bg-church-50">
+                    <div class="space-y-1 text-xs">
+                        <p><strong>Author:</strong> <span id="modal-author"></span></p>
+                        <p><strong>Category:</strong> <span id="modal-category"></span></p>
+                        <p><strong>Published:</strong> <span id="modal-pubdate"></span></p>
+                        <p><strong>Pages:</strong> <span id="modal-pages"></span></p>
+                        <p><strong>Available Copies:</strong> <span id="modal-copies" class="font-bold text-emerald-700"></span></p>
+                        <p><strong>Access Rule:</strong> <span id="modal-classification"></span></p>
+                    </div>
+                </div>
+                <p id="modal-description" class="text-xs text-church-700 leading-relaxed bg-church-50 p-3 rounded-xl border"></p>
+            </div>
+            <div class="bg-church-50 px-6 py-3 border-t flex justify-between items-center">
+                <button onclick="openCreateGroupModal()" class="text-xs font-medium text-amber-800 hover:underline">
+                    <i class="fa-solid fa-users mr-1"></i> Start Group Reading
+                </button>
+                <div class="space-x-2">
+                    <button onclick="closeModal('book-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold hover:bg-church-100">Close</button>
+                    <button id="modal-action-btn" class="px-4 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTION MODAL: Borrow Request Form (z-[60]) -->
+    <div id="borrow-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl border">
+            <h3 class="text-base font-bold text-church-900">Borrow Book Request</h3>
+            <p class="text-xs text-church-600">Selected: <strong id="borrow-book-title" class="text-church-900"></strong></p>
+            <p class="text-xs text-church-600">Borrower: <span id="borrow-member-info" class="font-medium text-church-800"></span></p>
+            <div class="grid grid-cols-2 gap-3 text-xs">
+                <div>
+                    <label class="font-bold block mb-1">Pick-up Date</label>
+                    <input id="borrow-pickup-date" type="date" class="w-full p-2 border rounded-lg bg-church-50">
+                </div>
+                <div>
+                    <label class="font-bold block mb-1">Pick-up Time</label>
+                    <input id="borrow-pickup-time" type="time" value="10:00" class="w-full p-2 border rounded-lg bg-church-50">
+                </div>
+            </div>
+            <div class="text-xs">
+                <label class="font-bold block mb-1">Return Date (Max 14 Days)</label>
+                <input id="borrow-due-date" type="date" class="w-full p-2 border rounded-lg bg-church-50 font-bold text-church-900">
+            </div>
+            <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
+                <p><strong>Location:</strong> Permanently in Church (Kiamunyi, Nakuru)</p>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeModal('borrow-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button id="btn-submit-borrow" onclick="submitBorrowRequest()" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition">Confirm Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTION MODAL: Onsite Reading (z-[60]) -->
+    <div id="onsite-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl border">
+            <h3 class="text-base font-bold text-church-900">Schedule Onsite Reading</h3>
+            <p class="text-xs text-church-600">Book: <strong id="onsite-book-title"></strong> (Onsite Study Desk Only)</p>
+            <div class="grid grid-cols-2 gap-3 text-xs">
+                <div>
+                    <label class="font-bold block mb-1">Date</label>
+                    <input id="onsite-date" type="date" class="w-full p-2 border rounded-lg bg-church-50">
+                </div>
+                <div>
+                    <label class="font-bold block mb-1">Time Slot</label>
+                    <input id="onsite-time" type="time" value="14:00" class="w-full p-2 border rounded-lg bg-church-50">
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeModal('onsite-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button onclick="submitOnsiteSchedule()" class="px-5 py-2 bg-amber-700 hover:bg-amber-800 text-white rounded-xl text-xs font-bold transition">Reserve Slot</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Physical Issue (z-[60]) -->
+    <div id="issue-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+            <h3 class="text-base font-bold text-church-900">Physical Book Checkout</h3>
+            <p class="text-xs text-church-600">Book: <strong id="issue-modal-book"></strong></p>
+            <p class="text-xs text-church-600">Borrower: <span id="issue-modal-member"></span></p>
+            <div class="text-xs">
+                <label class="font-bold block mb-1">Date Physically Handed Over</label>
+                <input id="issue-date-input" type="date" class="w-full p-2 border rounded-xl bg-church-50 font-bold">
+            </div>
+            <div>
+                <label class="text-xs font-bold block mb-1">Condition of Book Being Issued</label>
+                <select id="issue-condition-select" class="w-full p-2 border rounded-xl text-xs bg-church-50">
+                    <option value="New">New</option>
+                    <option value="Good">Good</option>
+                    <option value="Old">Old</option>
+                    <option value="Torn">Torn / Marked</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeModal('issue-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button onclick="confirmAdminIssue()" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition">Confirm Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Return Book (z-[60]) -->
+    <div id="return-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+            <h3 class="text-base font-bold text-church-900">Process Returned Book</h3>
+            <p class="text-xs text-church-600">Book: <strong id="return-modal-book"></strong></p>
+            <div class="text-xs">
+                <label class="font-bold block mb-1">Return Date</label>
+                <input id="return-date-input" type="date" class="w-full p-2 border rounded-xl bg-church-50 font-bold">
+            </div>
+            <div>
+                <label class="text-xs font-bold block mb-1">Condition of Returned Book</label>
+                <select id="return-condition-select" class="w-full p-2 border rounded-xl text-xs bg-church-50">
+                    <option value="Good / Normal">Good / Same as Issued</option>
+                    <option value="Torn / Stained">Torn / Stained</option>
+                    <option value="Heavily Marked">Heavily Marked</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-xs font-bold block mb-1">Penalty Warranted?</label>
+                <select id="return-penalty-select" class="w-full p-2 border rounded-xl text-xs bg-church-50">
+                    <option value="None">None</option>
+                    <option value="Late Return Penalty">Late Return</option>
+                    <option value="Damage / Repair Penalty">Damaged Book</option>
+                    <option value="Lost Book Replacement">Lost Book</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeModal('return-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button onclick="confirmAdminReturn()" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition">Complete Return</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Edit Member Contact (z-[60]) -->
+    <div id="edit-member-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl border">
+            <h3 class="text-base font-bold text-church-900">Update Borrower Phone</h3>
+            <p class="text-xs text-church-600">Member: <strong id="edit-mem-name"></strong> (<span id="edit-mem-id"></span>)</p>
+            <div>
+                <label class="text-xs font-bold block mb-1">WhatsApp Phone Number</label>
+                <input id="edit-mem-phone" type="text" placeholder="e.g. 0712345678" class="w-full p-2.5 border rounded-xl text-xs bg-church-50 font-bold">
+            </div>
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeModal('edit-member-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button onclick="saveMemberContact()" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition">Save Phone</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Member's "My Requests" (z-[60]) -->
+    <div id="my-requests-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl border">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 class="text-base font-bold text-church-900 flex items-center gap-2">
+                    <i class="fa-solid fa-book-bookmark text-church-700"></i> My Borrow Requests & Loans
+                </h3>
+                <button onclick="closeModal('my-requests-modal')" class="text-church-600 hover:text-church-900 text-lg font-bold">&times;</button>
+            </div>
+            <div id="my-requests-list" class="max-h-[60vh] overflow-y-auto space-y-2 text-xs"></div>
+            <div class="flex justify-end pt-2">
+                <button onclick="closeModal('my-requests-modal')" class="px-4 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-semibold">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Group Reading Details (z-50) -->
+    <div id="group-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl border">
+            <h3 class="text-base font-bold text-church-900">👥 Group Reading Session</h3>
+            <p class="text-xs text-church-600">Book: <strong id="grp-book-title"></strong></p>
+            <p class="text-xs text-church-600">Leader: <span id="grp-leader" class="font-bold"></span></p>
+            <p class="text-xs text-church-600">Capacity: <span id="grp-capacity" class="font-bold text-amber-700"></span></p>
+            <div class="bg-church-50 p-3 rounded-xl border text-xs text-church-800">
+                <p class="font-bold mb-1">Meeting Plan:</p>
+                <p id="grp-notes"></p>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeModal('group-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Close</button>
+                <button id="btn-join-group" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition">Join Group</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Create Group Reading (z-[60]) -->
+    <div id="create-group-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl border">
+            <h3 class="text-base font-bold text-church-900">Start a Group Reading Invite</h3>
+            <div>
+                <label class="text-[11px] font-bold block mb-1">Max Participants</label>
+                <input id="create-grp-limit" type="number" min="2" max="15" value="5" class="w-full p-2 border rounded-lg text-xs bg-church-50">
+            </div>
+            <div>
+                <label class="text-[11px] font-bold block mb-1">Meeting Plan</label>
+                <textarea id="create-grp-notes" rows="3" class="w-full p-2 border rounded-lg text-xs bg-church-50" placeholder="Specify days and location..."></textarea>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeModal('create-group-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button onclick="submitCreateGroup()" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition">Publish Invite</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: All Active Groups (z-50) -->
+    <div id="all-groups-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl border">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 class="text-base font-bold text-church-900 flex items-center gap-2">
+                    <i class="fa-solid fa-users text-amber-700"></i> Active Group Reading Circles
+                </h3>
+                <button onclick="closeModal('all-groups-modal')" class="text-church-600 hover:text-church-900 text-lg font-bold">&times;</button>
+            </div>
+            <div id="all-groups-list" class="max-h-[60vh] overflow-y-auto space-y-3 text-xs"></div>
+            <div class="flex justify-end pt-2">
+                <button onclick="closeModal('all-groups-modal')" class="px-4 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-semibold">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Admin Settings (z-[60]) -->
+    <div id="admin-settings-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl border">
+            <h3 class="text-base font-bold text-church-900 flex items-center gap-2">
+                <i class="fa-solid fa-gear text-church-700"></i> Library Admin Settings
+            </h3>
+            <div>
+                <label class="text-[11px] font-bold uppercase text-church-700">Librarian Coordinator Name</label>
+                <input id="setting-admin-name" type="text" placeholder="e.g. Library Coordinator" class="w-full mt-1 p-2 border rounded-xl text-xs bg-church-50">
+            </div>
+            <div>
+                <label class="text-[11px] font-bold uppercase text-church-700">Church Library WhatsApp / Phone</label>
+                <input id="setting-admin-phone" type="text" placeholder="+254 704 486 616" class="w-full mt-1 p-2 border rounded-xl text-xs bg-church-50">
+            </div>
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeModal('admin-settings-modal')" class="px-4 py-2 border rounded-xl text-xs font-semibold">Cancel</button>
+                <button onclick="saveAdminSettings()" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-xs font-bold transition">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Policy & Terms (z-[60]) -->
+    <div id="policy-modal" class="fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-church-200">
+            <div class="bg-church-100 px-6 py-4 flex items-center justify-between border-b border-church-200">
+                <h3 id="policy-modal-title" class="font-bold text-church-900 text-lg">Policy Title</h3>
+                <button onclick="closeModal('policy-modal')" class="text-church-600 hover:text-church-900 text-xl font-bold p-1">&times;</button>
+            </div>
+            <div id="policy-modal-body" class="p-6 space-y-4 max-h-[75vh] overflow-y-auto text-xs sm:text-sm text-church-800 leading-relaxed"></div>
+            <div class="bg-church-50 px-6 py-4 border-t border-church-200 flex justify-end">
+                <button onclick="closeModal('policy-modal')" class="px-5 py-2 bg-church-800 hover:bg-church-900 text-white rounded-xl text-sm font-medium shadow transition">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=13.0"></script>
+</body>
+</html>

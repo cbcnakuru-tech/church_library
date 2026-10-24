@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "title": "Church Discipline",
+    "author": "Jonathan Leeman",
+    "category": "Systematic Theology",
+    "publicationDate": "2012",
+    "copies": 3,
+    "pages": 143,
+    "classification": "Borrowable",
+    "description": "Church discipline is essential to building a healthy church. Jonathan Leeman provides a concise, biblical, and contemporary framework for understanding and implementing disciplinary measures in love. Addressing complex real-life situations, this guide helps local churches navigate sin and maintain healthy Christian leadership with grace.",
+    "image": "images/churchdiscipline.jpeg",
+    "keywords": ["Jonathan", "Leeman", "Church Discipline", "9 Marks"]
+  },
+  {
+    "id": 2,
+    "title": "Mathew: Expository Thoughts on the Gospel",
+    "author": "J.C Ryle",
+    "category": "Commentaries",
+    "publicationDate": "2015",
+    "copies": 2,
+    "pages": 331,
+    "classification": "Borrowable",
+    "description": "If understanding the Gospels is central to the Christian Faith, aiding that understanding is paramount. In Expository Thoughts on the Gospels, J. C. Ryle uses plain and pointed words to help readers know Christ deeply. Designed to stimulate personal Bible study or be read aloud in groups, this work offers compelling clarity for families and congregations alike.",
+    "image": "images/jcrylecomment.jpeg",
+    "keywords": ["Mathew", "Commentary", "Ryle", "Gospels"]
+  },
+  {
+    "id": 3,
+    "title": "Help I Feel Ashamed",
+    "author": "Sue Nicewander",
+    "category": "Practical Theology",
+    "publicationDate": "1996",
+    "copies": 1,
+    "pages": 62,
+    "classification": "Borrowable",
+    "description": "Feelings of shame can overwhelm us, leading to confusion, fear, and desperate behavior. In Help! I Feel Ashamed, Sue Nicewander uses real-life case studies and practical examples to examine the root causes of shame. Discover lasting hope and restoration through Jesus Christ, learning to respond to shame His way and achieve true victory over your past.",
+    "image": "images/ashamed.jpeg",
+    "keywords": ["Sue", "Counseling", "Shame", "hope"]
+  },
+  {
+    "id": 4,
+    "title": "Biblical Doctrine: A Systematic Summary of Biblical Truth",
+    "author": "John Macarthur & Richard Mayhue",
+    "category": "Systematic Theology",
+    "publicationDate": "2017",
+    "copies": 5,
+    "pages": 1023,
+    "classification": "Onsite Only",
+    "description": "Built upon decades of faithful study and expository ministry, Biblical Doctrine presents a rich, accessible systematization of Christian theological foundations. Combining deep devotion to Scripture with clear outlines of core doctrines, this work equips believers and churches to stand firm in biblical truth amid a changing world.",
+    "image": "images/systematic.jpeg",
+    "keywords": ["systematic", "theology", "doctrine"]
+  },
+  {
+    "id": 5,
+    "title": "Strong's Exhaustive Concordance of the Bible",
+    "author": "James Strong",
+    "category": "Commentaries",
+    "publicationDate": "2017",
+    "copies": 1,
+    "pages": 1685,
+    "classification": "Onsite Only",
+    "description": "This updated edition of Strong’s Exhaustive Concordance enhances James Strong’s classic study tool for modern readers. It allows users to easily locate biblical words in the KJV, explore original Hebrew and Greek meanings using Strong's numbering, and navigate Scripture with updated dictionaries, maps, and clear edge-tab indexing.",
+    "image": "images/strongs.jpeg",
+    "keywords": ["Strong's", "concordance", "commentary"]
+  },
+  {
+    "id": 6,
+    "title": "The Reformation Study Bible",
+    "author": "R.C. Sproul- General Editor",
+    "category": "Bibles",
+    "publicationDate": "2006",
+    "copies": 5,
+    "pages": 1950,
+    "classification": "Onsite Only",
+    "description": "The Bible is no ordinary book; it is the inspired, holy, and infallible 'voice of God' given to make us holy. As the superlative 'Norm of norms' and ultimate authority for life and faith, Scripture demands thoughtful study and meditation. The Reformation Study Bible guides disciples in deep reflection to transform knowledge into true obedience.",
+    "image": "images/biblereform.jpeg",
+    "keywords": ["Bible", "Reformation", "Commentary", "study"]
+  }
+]
