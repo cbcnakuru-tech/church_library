@@ -2,7 +2,7 @@
 // CROSSPOINT BIBLE CHURCH LIBRARY - SCRIPT.JS
 // ==========================================
 
-const API_URL = "https://script.google.com/macros/s/AKfycbxbdtpv-cAJVkvVHUSC_dspsRQWjkL0PwS4wrAm7Mc0ZcIAGXTxkqlX7-2b8n0y2gzVZg/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycby4uMpJDGbv_7B1KFcxwco-J68ImJz0iYW_TIgmsFCn0Kf-Sr_NIz-1AzGFevxHq4lq/exec";
 
 // Master metadata cache (prevents N/A pages & preserves keywords)
 let localBooksMetadata = [];
