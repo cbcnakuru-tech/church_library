@@ -2,8 +2,8 @@
 // CROSSPOINT BIBLE CHURCH LIBRARY - SUPABASE BACKEND
 // ==========================================
 
-const SUPABASE_URL = "https://wcfutxaxdxhdpfomsyml.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_VTYqn6uDQakIWBdL7S8EWA__Cz7PCq-";
+const SUPABASE_URL = "https://pijizvanbcdcfjhdbvvv.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_gCpxz0QkiMJD3uIglzHBlQ_uLd0DWbl";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let allBooks = [];
